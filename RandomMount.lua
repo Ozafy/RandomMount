@@ -92,6 +92,10 @@ local function tableLength(T)
     return count
 end
 
+local function inAQ40Zone()
+    return C_Map.GetBestMapForUnit("player") == 531
+end
+
 local function GetRandomMount(mounts)
     local numberOfMounts = tableLength(mounts)
     if numberOfMounts > 0 then
@@ -106,21 +110,23 @@ local function UpdateMacro(dismount)
         return
     end
     printDebug("Updating macro with player mounts...")
-    local aqMountMacro = ""
-    local aqMountId = GetRandomMount(playerAQMounts)
-    if aqMountId~=nil then
-        local name, _, _, _, _, _, _, _, _, _, _, classId, subclassID = GetItemInfo(tonumber(aqMountId))
-        aqMountMacro = "\n/cast [@player,group:raid] " .. name
+
+    local mounts = {}
+    if inAQ40Zone() then
+        mounts = playerAQMounts
+    else
+        mounts = playerMounts
     end
 
+
     local mountMacro = ""
-    local mountId = GetRandomMount(playerMounts)
+    local mountId = GetRandomMount(mounts)
     if mountId~=nil then
         local name, _, _, _, _, _, _, _, _, _, _, classId, subclassID = GetItemInfo(tonumber(mountId))
         mountMacro = "\n/cast [@player] " .. name
     end
 
-    local body = "#showtooltip\n/randommount m" .. aqMountMacro .. mountMacro
+    local body = "#showtooltip\n/randommount m" .. mountMacro
     EditMacro("RandomMount", "RandomMount", "ability_mount_charger", body, 1, 1)
 end
 
