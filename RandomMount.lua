@@ -100,8 +100,8 @@ local function GetRandomMount(mounts)
     return nil
 end
 
-local function UpdateMacro()
-    if IsMounted() then
+local function UpdateMacro(dismount)
+    if dismount and IsMounted() then
         Dismount()
         return
     end
@@ -195,7 +195,7 @@ SlashCmdList.RANDOMMOUNT = function(msg, ...)
         print("Updating mounts...")
         FindMountsInBags()
     elseif msg == "m" then
-        UpdateMacro()
+        UpdateMacro(true)
     else
         print("Usage: /randommount l to list mounts, /randommount u to update mounts, /randommount m to update macro")
     end
