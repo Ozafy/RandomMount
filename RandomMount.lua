@@ -2,7 +2,7 @@ local AddonName, AddonNS = ...
 
 local mountFrame = CreateFrame("Frame",nil,UIParent);
 
-local debug = true
+local debug = false
 
 local Mounts = {
     2411, --Black Stallion Bridle
