@@ -93,7 +93,8 @@ local function tableLength(T)
 end
 
 local function inAQ40Zone()
-    return C_Map.GetBestMapForUnit("player") == 531
+    local name, instanceType, difficultyID, difficultyName, maxPlayers, dynamicDifficulty, isDynamic, instanceMapID = GetInstanceInfo()
+    return instanceMapID == 531
 end
 
 local function GetRandomMount(mounts)
